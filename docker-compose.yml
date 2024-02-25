@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - ./:/code:ro
+    environment:
+      - OPENAI_API_KEY=
+      - DB_PORT=5432
+      - DB_NAME=lang_process
+      - DB_USER=postgres
+      - DB_PWD=8961767271
+      - DB_HOST=db
+      - SECRET_KEY=Garima
+    ports:
+      - "8000:80"
+    command: >
+      sh -c "alembic upgrade head && uvicorn src.server:app --host 0.0.0.0 --port 80"
+
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - ${DB_PORT}
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=8961767271
+      - POSTGRES_DB=lang_process
+    command: ["postgres", "-c", "log_statement=all"]
+
+volumes:
+  postgres_data:
+
