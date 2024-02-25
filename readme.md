@@ -16,6 +16,10 @@ Setup using docker:
 
 5. \q
 
+6. docker compose down
+
+7. docker compose up -d
+
 Setup Without docker:
 
 0. python -m venv venv (fro creating virtaul env)
